@@ -1,15 +1,30 @@
-import React, { useState, useMemo } from 'react';
-import { ChefHat, User, Clock, CheckCircle, XCircle, Store, MessageCircle, Send, Users, Hourglass, UtensilsCrossed, ArrowRight, LogIn, ArrowLeft, Code, Lock, MapPin, Tag, Flame, X, Trash2, Check, ChevronRight } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { ChefHat, User, Clock, CheckCircle, XCircle, Store, MessageCircle, Send, Users, Hourglass, UtensilsCrossed, ArrowRight, LogIn, ArrowLeft, Code, Lock, MapPin, Tag, Flame, X, Trash2, Check, ChevronRight, ChevronDown, Pencil } from 'lucide-react';
 import './App.css'; 
 
-// --- DATABASE ---
+import roticanaiImg from './roticanai.jpeg';
+import shawarmaImg from './shawarma.jpeg';
+import burgerImg from './burger.jpeg';
+import masakanpanasImg from './masakanpanas.jpeg';
+import nasiayamImg from './nasiayam.jpeg';
+import sizzlingImg from './sizzling.jpeg';
+import minumanImg from './minuman.jpeg';
+
+const BACKGROUND_IMAGES = [
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80", 
+  "https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=800&q=80", 
+  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80", 
+  "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80", 
+  "https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=800&q=80"  
+];
+
 const INITIAL_DATA = [
   {
     id: 1,
     username: 'vendor1',
     password: '123',
     name: "Roti Canai Corner",
-    image: "https://images.unsplash.com/photo-1621256272828-b80c102a9019?q=80&w=600&auto=format&fit=crop", 
+    image: roticanaiImg, 
     location: "Stall 01",
     isOpen: true,
     operatingHours: "7:00 AM - 11:00 AM",
@@ -75,10 +90,10 @@ const INITIAL_DATA = [
     id: 2,
     username: 'vendor2',
     password: '123',
-    name: "Shawarma / Pizza",
-    image: "https://images.unsplash.com/photo-1529006557810-274bc0b61f9a?q=80&w=600&auto=format&fit=crop",
-    location: "Stall 05",
-    isOpen: false,
+    name: "Shawarma & Pizza",
+    image: shawarmaImg,
+    location: "Stall 02",
+    isOpen: true,
     operatingHours: "12:00 PM - 9:00 PM",
     description: "Tasty Shawarma and Pizza for everyone.",
     queueLevel: 'low',
@@ -94,8 +109,8 @@ const INITIAL_DATA = [
     id: 3,
     username: 'vendor3',
     password: '123',
-    name: "Burger / Chicken Chop",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop",
+    name: "Burger & Chicken Chop",
+    image: burgerImg,
     location: "Stall 03",
     isOpen: true,
     operatingHours: "4:00 PM - 11:00 PM",
@@ -135,9 +150,9 @@ const INITIAL_DATA = [
     id: 4,
     username: 'vendor4',
     password: '123',
-    name: "Mee & Sup Station",
-    image: "https://images.unsplash.com/photo-1596450523276-24707f912ae8?q=80&w=600&auto=format&fit=crop", 
-    location: "Stall 02",
+    name: "MEE / BIHUN / KUETIAW / MAGGI",
+    image: masakanpanasImg, 
+    location: "Stall 04",
     isOpen: true,
     operatingHours: "12:00 PM - 10:00 PM",
     description: "Hot soups, fried noodles, and flavorful Thai dishes.",
@@ -181,8 +196,8 @@ const INITIAL_DATA = [
     username: 'vendor5',
     password: '123',
     name: "Nasi Ayam / Ayam Gepuk",
-    image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=600&auto=format&fit=crop", 
-    location: "Stall 04",
+    image: nasiayamImg, 
+    location: "Stall 05",
     isOpen: true,
     operatingHours: "10:00 AM - 9:00 PM",
     description: "Spicy Ayam Gepuk and classic Nasi Ayam.",
@@ -199,7 +214,7 @@ const INITIAL_DATA = [
     username: 'vendor6',
     password: '123',
     name: "Sizzling & Claypot",
-    image: "https://images.unsplash.com/photo-1534939561126-855b8675edd7?q=80&w=600&auto=format&fit=crop", 
+    image: sizzlingImg, 
     location: "Stall 06",
     isOpen: true,
     operatingHours: "12:00 PM - 9:00 PM",
@@ -218,7 +233,7 @@ const INITIAL_DATA = [
     username: 'vendor7',
     password: '123',
     name: "Minuman Panas & Sejuk",
-    image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=600&auto=format&fit=crop", // Coffee/Tea image
+    image: minumanImg, 
     location: "Stall 07",
     isOpen: true,
     operatingHours: "8:00 AM - 10:00 PM",
@@ -256,7 +271,46 @@ const INITIAL_DATA = [
 
 const DEV_CREDENTIALS = { username: 'admin', password: 'admin' };
 
-// --- MAIN RENDER WRAPPER ---
+const CustomDropdown = ({ options, value, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="custom-dropdown-container">
+      <div 
+        className={`custom-dropdown-trigger ${isOpen ? 'open' : ''}`} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{value}</span>
+        <ChevronDown size={16} color={isOpen ? "var(--primary)" : "#64748b"} />
+      </div>
+
+      {isOpen && (
+        <>
+          <div 
+            style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999}} 
+            onClick={() => setIsOpen(false)} 
+          />
+          
+          <div className="custom-dropdown-menu">
+            {options.map((opt) => (
+              <div 
+                key={opt} 
+                className={`custom-dropdown-item ${value === opt ? 'selected' : ''}`}
+                onClick={() => {
+                  onChange(opt);
+                  setIsOpen(false);
+                }}
+              >
+                {opt}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 const PhoneFrame = ({ children }) => (
   <div id="phone-shell">
     <div className="side-button button-silent"></div>
@@ -275,29 +329,47 @@ export default function App() {
   const [viewMode, setViewMode] = useState('list'); 
   const [selectedVendor, setSelectedVendor] = useState(null); 
   
+  const [bgImage, setBgImage] = useState(BACKGROUND_IMAGES[0]);
+
   const [loginId, setLoginId] = useState('');
   const [loginPass, setLoginPass] = useState('');
   const [loginError, setLoginError] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [devActiveTab, setDevActiveTab] = useState('student'); 
   
   const [stalls, setStalls] = useState(INITIAL_DATA);
   
-  // --- Modals State ---
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [showHoursModal, setShowHoursModal] = useState(false);
   
-  // Promo Form State
+  // New State for Edit Item
+  const [showEditItemModal, setShowEditItemModal] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [editPriceRaw, setEditPriceRaw] = useState('');
+
   const [selectedItems, setSelectedItems] = useState([]); 
   const [promoPrices, setPromoPrices] = useState({}); 
   const [promoDuration, setPromoDuration] = useState('1 Hour');
-  const [tempHours, setTempHours] = useState('');
 
-  // --- ACTIONS ---
+  const [startHour, setStartHour] = useState('8');
+  const [startMinute, setStartMinute] = useState('00');
+  const [startAmPm, setStartAmPm] = useState('AM');
+  const [endHour, setEndHour] = useState('5');
+  const [endMinute, setEndMinute] = useState('00');
+  const [endAmPm, setEndAmPm] = useState('PM');
+
+  useEffect(() => {
+    const randomImg = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)];
+    setBgImage(randomImg);
+  }, []);
+
   const handleLogin = () => {
     setLoginError('');
     if (loginId === DEV_CREDENTIALS.username && loginPass === DEV_CREDENTIALS.password) {
       setCurrentScreen('dev');
       setCurrentUser({ name: 'Developer', role: 'admin' });
+      setViewMode('list'); 
+      setSelectedVendor(null); 
       return;
     }
     const foundVendor = stalls.find(s => s.username === loginId && s.password === loginPass);
@@ -325,11 +397,52 @@ export default function App() {
     }));
   };
 
+  // --- EDIT ITEM FUNCTIONS ---
+  const openEditItemModal = (item) => {
+    setEditingItem(item);
+    // Remove "RM " or other non-numeric chars except dot
+    setEditPriceRaw(item.price.replace(/[^0-9.]/g, ''));
+    setShowEditItemModal(true);
+  };
+
+  const saveItemChanges = () => {
+    if (!editingItem || !selectedVendor) return;
+    
+    setStalls(stalls.map(s => {
+      if (s.id === selectedVendor.id) {
+        const updatedMenu = s.menu.map(m => {
+          // Identify item by name & category to be safe
+          if (m.name === editingItem.name && m.category === editingItem.category) {
+            const num = parseFloat(editPriceRaw);
+            const displayPrice = isNaN(num) ? editPriceRaw : `RM ${num.toFixed(2)}`;
+            return { ...m, price: displayPrice };
+          }
+          return m;
+        });
+        return { ...s, menu: updatedMenu };
+      }
+      return s;
+    }));
+    setShowEditItemModal(false);
+  };
+
+  const deleteMenuItem = () => {
+    if (!editingItem || !selectedVendor) return;
+
+    setStalls(stalls.map(s => {
+      if (s.id === selectedVendor.id) {
+        const updatedMenu = s.menu.filter(m => !(m.name === editingItem.name && m.category === editingItem.category));
+        return { ...s, menu: updatedMenu };
+      }
+      return s;
+    }));
+    setShowEditItemModal(false);
+  };
+
   const setQueueLevel = (stallId, level) => {
     setStalls(stalls.map(s => s.id === stallId ? { ...s, queueLevel: level } : s));
   };
 
-  // --- PROMO LOGIC ---
   const openPromoModal = () => {
     setSelectedItems([]); 
     setPromoPrices({}); 
@@ -391,18 +504,39 @@ export default function App() {
     }));
   };
 
-  // --- HOURS LOGIC ---
   const openHoursModal = () => {
-    setTempHours(stalls.find(s => s.id === selectedVendor.id).operatingHours);
+    const currentString = stalls.find(s => s.id === selectedVendor.id).operatingHours;
+    const regex = /(\d{1,2}):(\d{2})\s*(AM|PM)\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i;
+    const match = currentString.match(regex);
+
+    if (match) {
+      setStartHour(match[1]);
+      setStartMinute(match[2]);
+      setStartAmPm(match[3].toUpperCase());
+      setEndHour(match[4]);
+      setEndMinute(match[5]);
+      setEndAmPm(match[6].toUpperCase());
+    } else {
+      setStartHour('8');
+      setStartMinute('00');
+      setStartAmPm('AM');
+      setEndHour('5');
+      setEndMinute('00');
+      setEndAmPm('PM');
+    }
     setShowHoursModal(true);
   };
 
   const saveHours = () => {
-    setStalls(stalls.map(s => s.id === selectedVendor.id ? { ...s, operatingHours: tempHours } : s));
+    const newHours = `${startHour}:${startMinute} ${startAmPm} - ${endHour}:${endMinute} ${endAmPm}`;
+    setStalls(stalls.map(s => s.id === selectedVendor.id ? { ...s, operatingHours: newHours } : s));
     setShowHoursModal(false);
   };
 
-  // --- HELPERS ---
+  const hours = Array.from({length: 12}, (_, i) => (i + 1).toString());
+  const minutes = ['00', '15', '30', '45'];
+  const ampm = ['AM', 'PM'];
+
   const renderQueueBadge = (level) => {
     const config = {
       low: { label: 'Low', class: 'q-low', icon: <User size={12} /> },
@@ -412,8 +546,6 @@ export default function App() {
     const c = config[level] || config.low;
     return <span className={`queue-badge ${c.class}`}>{c.icon} {c.label}</span>;
   };
-
-  // --- COMPONENTS ---
   
   const VendorListCard = ({ stall }) => (
     <div 
@@ -452,22 +584,17 @@ export default function App() {
   const VendorDetailView = ({ stall, isVendorMode }) => {
     const liveStallData = stalls.find(s => s.id === stall.id) || stall;
 
-    // --- NEW: Category Logic ---
     const categories = useMemo(() => {
-      // Get unique categories from menu items
       const cats = [...new Set(liveStallData.menu.map(item => item.category || 'General'))];
       return cats;
     }, [liveStallData.menu]);
 
     const [activeCategory, setActiveCategory] = useState(categories[0]);
 
-    // Filter items based on active tab
     const filteredMenu = liveStallData.menu.filter(item => (item.category || 'General') === activeCategory);
 
     return (
       <div className="detail-view animate-fade-in">
-        
-        {/* Safe Area Header */}
         <div className="detail-safe-area-header">
            <button 
             className="detail-back-btn-dark" 
@@ -499,12 +626,12 @@ export default function App() {
                 {liveStallData.isOpen ? 'OPEN' : 'CLOSED'}
               </span>
               <span className="chip location"><MapPin size={12}/> {liveStallData.location}</span>
+              <span className="chip location"><Clock size={12}/> {liveStallData.operatingHours}</span>
             </div>
           </div>
         </div>
 
         <div style={{padding:'20px', flex:1, display:'flex', flexDirection:'column'}}>
-          {/* VENDOR CONTROLS */}
           {isVendorMode && (
             <div className="control-panel">
                <div className="control-card" onClick={() => toggleShopStatus(liveStallData.id)}>
@@ -513,7 +640,7 @@ export default function App() {
               </div>
               <div className="control-card" onClick={openPromoModal}>
                 <div className="control-icon"><Send size={24}/></div>
-                <div className="control-label">Blast Promo</div>
+                <div className="control-label">Add Promo</div>
               </div>
               <div className="control-card" onClick={openHoursModal}>
                 <div className="control-icon"><Clock size={24}/></div>
@@ -540,7 +667,6 @@ export default function App() {
             </div>
           )}
 
-          {/* ACTIVE PROMOS */}
           {liveStallData.isOpen && liveStallData.activePromos?.length > 0 && (
             <div className="promo-stack" style={{marginBottom:'24px'}}>
               {liveStallData.activePromos.map((promo) => (
@@ -566,7 +692,6 @@ export default function App() {
             </div>
           )}
 
-          {/* --- NEW: CATEGORY TABS --- */}
           <div className="menu-header-section">
             <h3 style={{fontSize:'1rem', fontWeight:'700', color:'#64748b', margin:0}}>MENU</h3>
           </div>
@@ -583,7 +708,6 @@ export default function App() {
             ))}
           </div>
 
-          {/* MENU LIST (Filtered) */}
           <div className="menu-list-container">
             {filteredMenu.map((item, idx) => {
               const activePromo = liveStallData.activePromos?.find(p => p.item === item.name);
@@ -607,16 +731,28 @@ export default function App() {
                        )}
                     </div>
                     {isVendorMode && (
-                      <button 
-                        onClick={() => toggleItemStock(liveStallData.id, item.name)}
-                        style={{
-                          background: item.inStock ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.1)',
-                          color: item.inStock ? 'var(--success)' : 'var(--danger)',
-                          border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer'
-                        }}
-                      >
-                        {item.inStock ? 'IN' : 'OUT'}
-                      </button>
+                      <div style={{display:'flex', gap:'8px'}}>
+                        <button 
+                          onClick={() => openEditItemModal(item)}
+                          style={{
+                            background: '#f1f5f9',
+                            color: '#64748b',
+                            border: 'none', padding: '0 8px', borderRadius: '8px', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center'
+                          }}
+                        >
+                          <Pencil size={16} />
+                        </button>
+                        <button 
+                          onClick={() => toggleItemStock(liveStallData.id, item.name)}
+                          style={{
+                            background: item.inStock ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.1)',
+                            color: item.inStock ? 'var(--success)' : 'var(--danger)',
+                            border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer'
+                          }}
+                        >
+                          {item.inStock ? 'IN' : 'OUT'}
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -642,8 +778,8 @@ export default function App() {
       ) : <div style={{width:36}}></div>}
       
       <div className="header-content">
-        <h1>{currentScreen === 'vendor' ? 'Vendor Portal' : 'Foodie IIUM'}</h1>
-        <p>{currentScreen === 'login' ? 'Secure Access' : 'Mahallah Bilal'}</p>
+        <h1>{currentScreen === 'vendor' ? 'Vendor Portal' : currentScreen === 'dev' ? 'Developer Mode' : 'Foodie IIUM'}</h1>
+        <p>{currentScreen === 'login' ? 'Secure Access' : 'Mahallah Bilal Cafeteria'}</p>
       </div>
       <div style={{marginLeft: 'auto'}}>
         {currentScreen === 'student' && viewMode === 'list' && <Store size={24} color="#007A73" />}
@@ -652,18 +788,21 @@ export default function App() {
     </header>
   );
 
-  // --- RENDER SCREENS ---
-
   if (currentScreen === 'landing') {
     return (
       <PhoneFrame>
-        <div className="landing-container animate-fade-in">
+        <div className="landing-bg-wrapper">
+          <img src={bgImage} alt="Food Background" />
+          <div className="landing-bg-overlay"></div>
+        </div>
+
+        <div className="landing-container animate-fade-in" style={{position: 'relative', zIndex: 1}}>
           <div className="landing-icon-wrapper">
             <UtensilsCrossed size={48} color="#007A73" />
           </div>
           <h1 className="landing-title">Foodie</h1>
           <h1 className="landing-title" style={{marginTop:'-10px', fontSize:'2rem', opacity:0.8}}>IIUM</h1>
-          <p className="landing-subtitle">Mahallah Bilal Pilot Program</p>
+          <p className="landing-subtitle">Mahallah Bilal Cafeteria</p>
           <div style={{width:'100%'}}>
             <button className="btn-glass-primary" onClick={() => setCurrentScreen('student')}>
               Check Food Status <ArrowRight size={20} />
@@ -672,7 +811,7 @@ export default function App() {
               <LogIn size={18} /> Vendor Login
             </button>
           </div>
-          <p style={{marginTop:'32px', fontSize:'0.7rem', opacity:0.5}}>v1.0.0 • Green & Gold Edition</p>
+          <p style={{marginTop:'32px', fontSize:'0.7rem', opacity:0.5}}>v1.0.0 • Group E</p>
         </div>
       </PhoneFrame>
     );
@@ -699,16 +838,24 @@ export default function App() {
     );
   }
 
-  // --- STUDENT & VENDOR MAIN VIEW ---
   return (
     <PhoneFrame>
       {viewMode === 'list' && <Header />}
-      
+
+      {currentScreen === 'dev' && viewMode === 'list' && (
+        <div className="dev-nav">
+          <div className={`dev-tab ${devActiveTab === 'student' ? 'active' : ''}`} onClick={() => setDevActiveTab('student')}>Student View</div>
+          <div className={`dev-tab ${devActiveTab === 'vendor' ? 'active' : ''}`} onClick={() => setDevActiveTab('vendor')}>Vendor View</div>
+        </div>
+      )}
+
       <main className="main-content" style={{padding: viewMode === 'detail' ? 0 : '20px'}}>
         
         {viewMode === 'list' && (
           <div className="animate-fade-in">
-             <h2 style={{fontSize:'1.2rem', marginBottom:'16px', color:'var(--primary-dark)'}}>Available Stalls</h2>
+             <h2 style={{fontSize:'1.2rem', marginBottom:'16px', color:'var(--primary-dark)'}}>
+               {currentScreen === 'dev' && devActiveTab === 'vendor' ? 'Manage Stalls (Dev)' : 'Available Stalls'}
+             </h2>
              {stalls.map(stall => <VendorListCard key={stall.id} stall={stall} />)}
           </div>
         )}
@@ -716,17 +863,16 @@ export default function App() {
         {viewMode === 'detail' && selectedVendor && (
           <VendorDetailView 
             stall={selectedVendor} 
-            isVendorMode={currentScreen === 'vendor'} 
+            isVendorMode={currentScreen === 'vendor' || (currentScreen === 'dev' && devActiveTab === 'vendor')} 
           />
         )}
 
       </main>
 
-      {/* --- PROMO MODAL --- */}
       {showPromoModal && (
         <div className="modal-overlay">
           <div className="modal-content animate-fade-in" style={{maxHeight:'80vh', display:'flex', flexDirection:'column'}}>
-            <h3 style={{margin:0, color:'var(--primary-dark)'}}>📢 Blast Promo</h3>
+            <h3 style={{margin:0, color:'var(--primary-dark)'}}>📢 Add Promo</h3>
             <p style={{fontSize:'0.9rem', color:'#666'}}>Select items and set prices.</p>
             <label className="modal-label">Select Items & Price ({selectedItems.length})</label>
             <div className="promo-multi-select-list">
@@ -747,14 +893,15 @@ export default function App() {
                 );
               })}
             </div>
+            
             <label className="modal-label">Duration</label>
-            <select className="modal-select" value={promoDuration} onChange={(e) => setPromoDuration(e.target.value)}>
-              <option value="30 Mins">30 Mins</option>
-              <option value="1 Hour">1 Hour</option>
-              <option value="2 Hours">2 Hours</option>
-              <option value="All Day">All Day</option>
-            </select>
-            <div className="modal-actions">
+            <CustomDropdown 
+              options={['30 Mins', '1 Hour', '2 Hours', 'All Day']} 
+              value={promoDuration} 
+              onChange={setPromoDuration} 
+            />
+            
+            <div className="modal-actions" style={{marginTop: '20px'}}>
               <button className="btn-cancel" onClick={() => setShowPromoModal(false)}>Cancel</button>
               <button className="btn-save" onClick={blastPromo}>Blast Promo</button>
             </div>
@@ -762,12 +909,34 @@ export default function App() {
         </div>
       )}
 
-      {/* --- HOURS MODAL --- */}
       {showHoursModal && (
         <div className="modal-overlay">
           <div className="modal-content animate-fade-in">
             <h3 style={{margin:0, color:'var(--primary-dark)'}}>🕒 Edit Hours</h3>
-            <input type="text" className="modal-input" value={tempHours} onChange={(e) => setTempHours(e.target.value)} />
+            <p style={{fontSize:'0.9rem', color:'#666'}}>Set opening and closing times.</p>
+            
+            <div className="time-edit-container">
+              <div className="time-group">
+                <label>Opening</label>
+                <div className="time-selectors">
+                  <CustomDropdown options={hours} value={startHour} onChange={setStartHour} />
+                  <span>:</span>
+                  <CustomDropdown options={minutes} value={startMinute} onChange={setStartMinute} />
+                  <CustomDropdown options={ampm} value={startAmPm} onChange={setStartAmPm} />
+                </div>
+              </div>
+
+              <div className="time-group">
+                <label>Closing</label>
+                <div className="time-selectors">
+                  <CustomDropdown options={hours} value={endHour} onChange={setEndHour} />
+                  <span>:</span>
+                  <CustomDropdown options={minutes} value={endMinute} onChange={setEndMinute} />
+                  <CustomDropdown options={ampm} value={endAmPm} onChange={setEndAmPm} />
+                </div>
+              </div>
+            </div>
+
             <div className="modal-actions">
               <button className="btn-cancel" onClick={() => setShowHoursModal(false)}>Cancel</button>
               <button className="btn-save" onClick={saveHours}>Save Changes</button>
@@ -775,6 +944,46 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {showEditItemModal && (
+        <div className="modal-overlay">
+          <div className="modal-content animate-fade-in" style={{width:'85%'}}>
+            <h3 style={{margin:0, color:'var(--primary-dark)'}}>Edit Item</h3>
+            <p style={{fontSize:'0.9rem', color:'#666', marginBottom:'16px'}}>{editingItem?.name}</p>
+            
+            <label className="modal-label">Price (RM)</label>
+            <input 
+              type="text" 
+              inputMode="decimal" 
+              className="modern-input" 
+              style={{marginTop:'4px', marginBottom:'24px'}}
+              value={editPriceRaw} 
+              onChange={(e) => setEditPriceRaw(e.target.value)}
+              placeholder="0.00"
+            />
+            
+            <div className="modal-actions">
+              <button 
+                className="btn-cancel" 
+                style={{background:'#fee2e2', color:'#ef4444', border:'1px solid #fecaca'}}
+                onClick={deleteMenuItem}
+              >
+                Delete Item
+              </button>
+              <button className="btn-save" onClick={saveItemChanges}>Save Changes</button>
+            </div>
+            <div style={{marginTop:'12px'}}>
+              <button 
+                onClick={() => setShowEditItemModal(false)}
+                style={{background:'transparent', border:'none', color:'#64748b', fontSize:'0.9rem', cursor:'pointer'}}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </PhoneFrame>
   );
 }

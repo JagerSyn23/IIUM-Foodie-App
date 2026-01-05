@@ -1,17 +1,13 @@
-/* --- 1. Global Variables & IIUM Theme --- */
 :root {
-  /* IIUM Palette */
   --primary: #007A73;       
   --primary-dark: #004d49;  
   --gold: #D4AF37;          
-  --gold-light: #FCEDA3;    
-  
-  /* Glass Variables */
+  --gold-light: #FCEDA3;   
+
   --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-shadow: 0 8px 32px 0 rgba(0, 77, 73, 0.1);
-  
-  /* Text & Status */
+
   --text-main: #1c1c1e;
   --text-muted: #52525b;
   --success: #10b981;
@@ -19,22 +15,20 @@
   
   --radius-lg: 24px;
 
-  /* --- NEW PHONE FRAME VARIABLES (Deep Orange #c95d28) --- */
   --phone-width: 430px;
-  --phone-height: 90vh; /* max 932px */
+  --phone-height: 90vh; 
   --phone-border-radius: 55px;
-  --bezel-width: 0px;   /* Internal spacing handled by padding/inset */
+  --bezel-width: 0px;   
 
-  --frame-base: #c95d28;  /* Requested Base Color */
-  --frame-light: #e58a5c; /* Lighter Highlight */
-  --frame-dark: #9e461b;  /* Darker Edge */
-  --frame-shadow: #59250e; /* Deepest Gradient Tone */
+  --frame-base: #c95d28;  
+  --frame-light: #e58a5c; 
+  --frame-dark: #9e461b;  
+  --frame-shadow: #59250e; 
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
-  /* Dark background to contrast the phone frame */
   background-color: #1a1a1a; 
   display: flex;
   justify-content: center;
@@ -42,38 +36,28 @@ body {
   min-height: 100vh;
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
-  overflow: hidden; /* Prevent body scroll if phone is large */
+  overflow: hidden; 
 }
 
-/* --- 2. PHONE SHELL (Updated from Request) --- */
 #phone-shell {
     width: var(--phone-width);
     height: var(--phone-height);
     max-height: 932px;
-    
-    /* Centering Logic */
     position: relative;
     margin: auto;
-    
-    /* Inner black housing */
     background: #000;
     border-radius: var(--phone-border-radius);
     
     padding: var(--bezel-width);
     box-sizing: border-box;
-    z-index: 10000;
-    
+    z-index: 10000;  
     transform-origin: bottom right;
-    
-    /* [CRITICAL] Ensure buttons are visible outside the box */
     overflow: visible !important; 
     -webkit-mask-image: none !important; 
-    
     transition: opacity 0.5s ease, 
                 background 0.3s,
                 height 0.4s cubic-bezier(0.32, 0.72, 0, 1),
                 bottom 0.4s;
-    
     filter: blur(0px); 
     transform: translate3d(0, 0, 0);
     will-change: auto; 
@@ -81,7 +65,6 @@ body {
     image-rendering: -webkit-optimize-contrast; 
 }
 
-/* --- PHONE FRAME OVERLAY (The Deep Orange Frame) --- */
 #phone-shell::after {
     content: '';
     position: absolute;
@@ -90,22 +73,16 @@ body {
     width: 100%;
     height: 100%;
     border-radius: var(--phone-border-radius);
-    
-    /* SHADOW STACK */
+
     box-shadow: 
-        /* 1. Sharp Inner Black Bezel (Clean Edge) */
         inset 0 0 0 3px #000,
-        
-        /* 2. The Metal Body (Deep Orange) */
+
         0 0 0 2px var(--frame-base),
-        
-        /* 3. The Specular Edge (Bright Orange Highlight) */
+
         0 0 0 4px var(--frame-light),
-        
-        /* 4. The Outer Edge (Shadow side - defines physical thickness) */
+
         0 0 0 6px var(--frame-dark),
-        
-        /* 5. Realistic Soft Drop Shadow */
+
         0 30px 60px -10px rgba(0,0,0,0.6);
     
     z-index: 99999; 
@@ -113,10 +90,9 @@ body {
     transition: opacity 0.3s, border-radius 0.4s;
 }
 
-/* --- SIDE BUTTONS (Clean Edges - No Black Shadow) --- */
 .side-button {
     position: absolute;
-    /* Vertical Gradient to simulate curved metallic surface */
+
     background: linear-gradient(
         to right, 
         var(--frame-shadow) 0%, 
@@ -126,46 +102,37 @@ body {
     );
     width: 6px; 
     z-index: -1; 
-    
-    /* Subtle internal depth only */
+
     box-shadow: inset 1px 0 1px rgba(0,0,0,0.2);
         
     pointer-events: none;
     border-radius: 3px 0 0 3px; 
 }
 
-/* --- LEFT SIDE BUTTONS --- */
-/* ACTION BUTTON */
 .button-silent {
     top: 115px;
     left: -12px; 
     height: 26px;
 }
 
-/* VOLUME UP */
 .button-vol-up {
     top: 165px;
     left: -12px;
     height: 50px;
 }
 
-/* VOLUME DOWN */
 .button-vol-down {
     top: 230px;
     left: -12px;
     height: 50px;
 }
 
-/* --- RIGHT SIDE BUTTON --- */
-/* POWER BUTTON */
 .button-power {
     top: 195px;
     right: -12px;
-    left: auto; /* Reset left */
+    left: auto; 
     height: 85px; 
     border-radius: 0 3px 3px 0;
-    
-    /* Reverse gradient */
     background: linear-gradient(
         to left, 
         var(--frame-shadow) 0%, 
@@ -177,7 +144,6 @@ body {
     box-shadow: inset -1px 0 1px rgba(0,0,0,0.2);
 }
 
-/* Dynamic Island */
 .dynamic-island {
   position: absolute;
   top: 11px;
@@ -197,33 +163,27 @@ body {
   content: '';
   width: 80px; height: 100%;
   border-radius: 20px;
-  /* Camera reflection simulation */
   background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 10%);
 }
 
-/* App Container (Screen) */
 .app-container {
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);
-  /* Matches inner curve of the frame radius */
   border-radius: 46px; 
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  /* Fix for border-radius clipping */
   mask-image: radial-gradient(white, black); 
 }
 
-/* --- 3. Animations --- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .animate-fade-in { animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* --- 4. Landing Page --- */
 .landing-container {
   flex: 1;
   display: flex;
@@ -233,7 +193,7 @@ body {
   padding: 32px;
   text-align: center;
   position: relative;
-  padding-top: 60px; /* Space for Island */
+  padding-top: 60px;
 }
 
 .landing-icon-wrapper {
@@ -290,12 +250,10 @@ body {
   display: flex; align-items: center; justify-content: center; gap: 10px;
 }
 
-/* --- 5. Header (With Safe Area) --- */
 .app-header {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(15px);
   padding: 16px 20px;
-  /* Add padding top to account for Dynamic Island/Status Bar */
   padding-top: 55px; 
   display: flex; align-items: center; gap: 16px;
   position: sticky; top: 0; z-index: 100;
@@ -313,11 +271,9 @@ body {
 .header-content h1 { font-size: 1.1rem; font-weight: 800; margin: 0; color: var(--primary-dark); }
 .header-content p { color: var(--text-muted); font-size: 0.75rem; margin: 0; }
 
-/* --- 6. Main Content --- */
 .main-content { padding: 20px; flex: 1; overflow-y: auto; padding-bottom: 40px; }
 .main-content::-webkit-scrollbar { width: 0px; background: transparent; }
 
-/* --- UPDATED STYLES: Vendor Detail View --- */
 .detail-view {
   background: white;
   min-height: 100%;
@@ -325,10 +281,9 @@ body {
   flex-direction: column;
 }
 
-/* [NEW] Safe Area Header - Pushes content down */
 .detail-safe-area-header {
-  height: 55px; /* Fits Dynamic Island */
-  padding-top: 35px; /* Push content below Island */
+  height: 55px; 
+  padding-top: 35px; 
   padding-left: 20px;
   padding-right: 20px;
   display: flex;
@@ -351,9 +306,8 @@ body {
   height: 200px;
   width: 100%;
   position: relative;
-  /* Optional: Add margin if you want it floating like a card */
-  /* margin-top: 20px; */ 
 }
+
 .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
 .detail-hero-gradient {
   position: absolute; inset: 0;
@@ -372,7 +326,6 @@ body {
 .chip.closed { background: rgba(239, 68, 68, 0.9); color: white; }
 .chip.location { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
-/* --- EXISTING STYLES (Keep these) --- */
 .vendor-list-card {
   background: white;
   border-radius: 20px;
@@ -443,7 +396,6 @@ body {
   display: flex; align-items: center; justify-content: center;
 }
 
-/* --- 7. Controls & Modals --- */
 .control-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
 .control-card {
   background: white; border-radius: 20px; padding: 20px;
@@ -454,7 +406,6 @@ body {
 .control-icon { margin-bottom: 8px; color: var(--primary); }
 .control-label { font-size: 0.8rem; font-weight: 700; color: var(--primary-dark); }
 
-/* Modals */
 .modal-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px);
@@ -477,7 +428,6 @@ body {
 .btn-cancel { flex: 1; background: #f1f5f9; color: var(--text-main); border: none; padding: 14px; border-radius: 14px; font-weight: 600; cursor: pointer; }
 .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
 
-/* Login */
 .login-wrapper { padding: 32px; flex: 1; display: flex; flex-direction: column; justify-content: center; padding-top: 60px; }
 .modern-input {
   width: 100%; padding: 16px; border: 1px solid #e2e8f0; border-radius: 16px;
@@ -489,14 +439,10 @@ body {
   margin-top: 16px; box-shadow: 0 4px 15px rgba(0, 122, 115, 0.3);
 }
 
-/* Nav Tabs */
 .dev-nav { display: flex; background: #f1f5f9; padding: 6px; margin: 16px; border-radius: 16px; }
 .dev-tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); border-radius: 12px; cursor: pointer; }
 .dev-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-/* --- EXISTING CODE ... --- */
-
-/* --- NEW STYLES: Price Display Updates --- */
 .old-price {
   text-decoration: line-through;
   color: #94a3b8;
@@ -505,12 +451,11 @@ body {
 }
 
 .new-price {
-  color: #EA580C; /* Promo Orange */
+  color: #EA580C; 
   font-weight: 800;
   font-size: 0.95rem;
 }
 
-/* --- NEW STYLES: Multi-Select Promo List --- */
 .promo-multi-select-list {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -557,18 +502,17 @@ body {
   box-shadow: 0 0 0 2px rgba(0, 122, 115, 0.1);
 }
 
-/* --- NEW STYLES: Category Tabs --- */
 .category-tabs-container {
   display: flex;
   gap: 10px;
   overflow-x: auto;
   padding-bottom: 16px;
   margin-top: 12px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 .category-tabs-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none; 
 }
 
 .category-tab {
@@ -590,7 +534,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 122, 115, 0.3);
 }
 
-/* --- ACTIVE PROMO STACK --- */
+
 .promo-stack {
   margin-top: 12px;
   display: flex;
@@ -611,7 +555,6 @@ body {
 .promo-price { font-size: 0.8rem; font-weight: 700; color: #EA580C; background: rgba(255,255,255,0.5); padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
 .promo-details { font-size: 0.75rem; color: #C2410C; margin: 0; opacity: 0.9; }
 
-/* Menu */
 .menu-list { padding: 8px 20px 20px; }
 .menu-item {
   display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;
@@ -635,3 +578,152 @@ body {
 .q-low { background: #d1fae5; color: #065f46; }
 .q-med { background: #fef3c7; color: #92400e; }
 .q-high { background: #fee2e2; color: #991b1b; }
+
+.time-edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.time-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.time-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.time-selectors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.time-selectors span {
+  font-weight: 800;
+  color: var(--text-muted);
+  padding: 0 4px;
+}
+
+.custom-dropdown-container {
+  position: relative;
+  flex: 1;
+  min-width: 0; 
+}
+
+.custom-dropdown-trigger {
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.custom-dropdown-trigger:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.custom-dropdown-trigger.open {
+  border-color: var(--primary);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(0, 122, 115, 0.15);
+}
+
+.custom-dropdown-menu {
+  position: absolute;
+  top: 110%; 
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 1000; 
+  padding: 6px;
+  box-sizing: border-box;
+  animation: fadeInUp 0.2s ease-out;
+}
+
+.custom-dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.custom-dropdown-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background 0.1s;
+  text-align: left;
+}
+
+.custom-dropdown-item:hover {
+  background-color: #f1f5f9;
+}
+
+.custom-dropdown-item.selected {
+  background-color: rgba(0, 122, 115, 0.1);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.landing-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 46px;
+}
+
+.landing-bg-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: bgZoom 20s infinite alternate; 
+}
+
+.landing-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom, 
+    rgba(255, 255, 255, 0.7) 0%, 
+    rgba(255, 255, 255, 0.85) 50%, 
+    rgba(255, 255, 255, 1) 100%
+  );
+  backdrop-filter: blur(2px);
+}
+
+@keyframes bgZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
+}
