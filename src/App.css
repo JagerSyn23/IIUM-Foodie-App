@@ -26,6 +26,10 @@
   --frame-shadow: #59250e; 
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
@@ -254,7 +258,7 @@ body {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(15px);
   padding: 16px 20px;
-  padding-top: 55px; 
+  padding-top: 60px; 
   display: flex; align-items: center; gap: 16px;
   position: sticky; top: 0; z-index: 100;
   border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -282,15 +286,19 @@ body {
 }
 
 .detail-safe-area-header {
-  height: 55px; 
-  padding-top: 35px; 
+  min-height: 90px; 
+  padding-top: 50px; 
+  padding-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
   display: flex;
   align-items: center;
-  background: white;
+  background: rgba(255, 255, 255, 0.95); 
+  backdrop-filter: blur(10px);
   z-index: 50;
   border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: sticky; 
+  top: 0;
 }
 
 .detail-back-btn-dark {
@@ -396,11 +404,20 @@ body {
   display: flex; align-items: center; justify-content: center;
 }
 
-.control-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.control-panel { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px; 
+  margin-bottom: 20px; 
+}
+
 .control-card {
-  background: white; border-radius: 20px; padding: 20px;
+  background: white; border-radius: 20px; 
+  padding: 16px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid rgba(0,0,0,0.05);
+  appearance: none; -webkit-appearance: none;
+  font-family: inherit; font-size: inherit; color: inherit; width: 100%;
 }
 .control-card:active { background: #f9fafb; transform: scale(0.98); }
 .control-icon { margin-bottom: 8px; color: var(--primary); }

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { ChefHat, User, Clock, CheckCircle, XCircle, Store, MessageCircle, Send, Users, Hourglass, UtensilsCrossed, ArrowRight, LogIn, ArrowLeft, Code, Lock, MapPin, Tag, Flame, X, Trash2, Check, ChevronRight, ChevronDown, Pencil } from 'lucide-react';
+import { User, Clock, CheckCircle, Store, Send, Users, Hourglass, UtensilsCrossed, ArrowRight, LogIn, ArrowLeft, Lock, MapPin, Tag, Flame, Trash2, ChevronDown, Pencil } from 'lucide-react';
 import './App.css'; 
 
 import roticanaiImg from './roticanai.jpeg';
@@ -32,7 +32,6 @@ const INITIAL_DATA = [
     queueLevel: 'medium',
     activePromos: [], 
     menu: [
-      // --- ROTI CANAI ---
       { category: "Roti Canai", name: "Roti Canai Kosong", inStock: true, price: "RM 1.20" },
       { category: "Roti Canai", name: "Roti Telur", inStock: true, price: "RM 2.50" },
       { category: "Roti Canai", name: "Roti Susu", inStock: true, price: "RM 2.00" },
@@ -55,8 +54,6 @@ const INITIAL_DATA = [
       { category: "Roti Canai", name: "Roti Madu", inStock: true, price: "RM 2.50" },
       { category: "Roti Canai", name: "Roti Telur Madu", inStock: true, price: "RM 3.50" },
       { category: "Roti Canai", name: "Roti Cheese Madu", inStock: true, price: "RM 3.50" },
-
-      // --- MIX ---
       { category: "Mix", name: "Mix Omelette", inStock: true, price: "RM 4.50" },
       { category: "Mix", name: "Mix Omelette Cheese", inStock: true, price: "RM 5.50" },
       { category: "Mix", name: "Mix Sosej", inStock: true, price: "RM 4.00" },
@@ -65,16 +62,12 @@ const INITIAL_DATA = [
       { category: "Mix", name: "Mix Ayam Cheese", inStock: true, price: "RM 6.00" },
       { category: "Mix", name: "Mix Campur", inStock: true, price: "RM 7.50" },
       { category: "Mix", name: "Campur Cheese", inStock: true, price: "RM 8.00" },
-
-      // --- NAAN ---
       { category: "Naan", name: "Roti Naan Biasa", inStock: true, price: "RM 1.50" },
       { category: "Naan", name: "Roti Naan Cheese", inStock: true, price: "RM 2.50" },
       { category: "Naan", name: "Roti Naan Garlic", inStock: true, price: "RM 2.00" },
       { category: "Naan", name: "Roti Naan Butter", inStock: true, price: "RM 2.00" },
       { category: "Naan", name: "Roti Naan Pizza", inStock: true, price: "RM 5.50" },
       { category: "Naan", name: "Ayam Tandoori", inStock: true, price: "RM 6.00" },
-
-      // --- SPECIAL MENU ---
       { category: "Special", name: "Special Egyptian", inStock: true, price: "RM 5.00" },
       { category: "Special", name: "Special Khalid", inStock: true, price: "RM 7.50" },
       { category: "Special", name: "Special Ismail", inStock: true, price: "RM 7.00" },
@@ -118,7 +111,6 @@ const INITIAL_DATA = [
     queueLevel: 'high',
     activePromos: [],
     menu: [
-      // --- ORDINARY ---
       { category: "Ordinary", name: "Beef Burger", inStock: true, price: "RM 3.50" },
       { category: "Ordinary", name: "Chicken Burger", inStock: true, price: "RM 3.50" },
       { category: "Ordinary", name: "Double Burger", inStock: true, price: "RM 5.00" },
@@ -128,8 +120,6 @@ const INITIAL_DATA = [
       { category: "Ordinary", name: "Double Oblong", inStock: true, price: "RM 10.00" },
       { category: "Ordinary", name: "Egg Banjo", inStock: true, price: "RM 3.00" },
       { category: "Ordinary", name: "Double Egg Banjo", inStock: true, price: "RM 4.00" },
-
-      // --- SPECIAL ---
       { category: "Special", name: "Beef Burger Special", inStock: true, price: "RM 4.50" },
       { category: "Special", name: "Chicken Burger Special", inStock: true, price: "RM 4.50" },
       { category: "Special", name: "Double Burger Special", inStock: true, price: "RM 6.00" },
@@ -137,12 +127,8 @@ const INITIAL_DATA = [
       { category: "Special", name: "Double Crispy Special", inStock: true, price: "RM 9.00" },
       { category: "Special", name: "Oblong Special", inStock: true, price: "RM 6.50" },
       { category: "Special", name: "Double Oblong Special", inStock: true, price: "RM 11.00" },
-
-      // --- CHICKEN CHOP ---
       { category: "Chicken Chop", name: "Chicken Chop", inStock: true, price: "RM 7.00" },
       { category: "Chicken Chop", name: "Fries", inStock: true, price: "RM 4.00" },
-
-      // --- ADD ON ---
       { category: "Add On", name: "Cheese", inStock: true, price: "RM 1.50" }
     ]
   },
@@ -159,7 +145,6 @@ const INITIAL_DATA = [
     queueLevel: 'medium',
     activePromos: [],
     menu: [
-      // --- NOODLES (Mee / Bihun / Kuetiaw / Maggi) ---
       { category: "Noodles", name: "Goreng Biasa", inStock: true, price: "RM 5.00" },
       { category: "Noodles", name: "Sup", inStock: true, price: "RM 5.00" },
       { category: "Noodles", name: "Hailam", inStock: true, price: "RM 5.00" },
@@ -171,15 +156,11 @@ const INITIAL_DATA = [
       { category: "Noodles", name: "Kungfu/Ladna", inStock: true, price: "RM 6.00" },
       { category: "Noodles", name: "Tomyam Campur", inStock: true, price: "RM 6.00" },
       { category: "Noodles", name: "Tomyam Udang", inStock: true, price: "RM 6.50" },
-
-      // --- SUP ---
       { category: "Sup", name: "Sup Sayur", inStock: true, price: "RM 4.00" },
       { category: "Sup", name: "Sup Ayam / Daging", inStock: true, price: "RM 5.00" },
       { category: "Sup", name: "Tomyam Ayam / Daging", inStock: true, price: "RM 5.00" },
       { category: "Sup", name: "Tomyam Campur", inStock: true, price: "RM 6.00" },
       { category: "Sup", name: "Tomyam Udang", inStock: true, price: "RM 6.00" },
-
-      // --- SPECIAL DISHES ---
       { category: "Special Dishes", name: "Telur Goreng / Dadar", inStock: true, price: "RM 1.50" },
       { category: "Special Dishes", name: "Kangkung Belacan", inStock: true, price: "RM 4.00" },
       { category: "Special Dishes", name: "Kailan Ikan Masin", inStock: true, price: "RM 4.00" },
@@ -241,7 +222,6 @@ const INITIAL_DATA = [
     queueLevel: 'low',
     activePromos: [],
     menu: [
-      // --- PANAS ---
       { category: "Panas", name: "Teh'O", inStock: true, price: "RM 1.20" },
       { category: "Panas", name: "Teh", inStock: true, price: "RM 2.00" },
       { category: "Panas", name: "Teh'O Limau", inStock: true, price: "RM 2.00" },
@@ -258,8 +238,6 @@ const INITIAL_DATA = [
       { category: "Panas", name: "Sirap Bandung", inStock: true, price: "RM 2.00" },
       { category: "Panas", name: "Limau", inStock: true, price: "RM 1.50" },
       { category: "Panas", name: "Lemon", inStock: true, price: "RM 2.00" },
-
-      // --- OTHER ---
       { category: "Other", name: "Teh Hijau", inStock: true, price: "RM 3.00" },
       { category: "Other", name: "Air Balang", inStock: true, price: "RM 2.50" },
       { category: "Other", name: "Ais", inStock: true, price: "RM 0.50" },
@@ -324,6 +302,267 @@ const PhoneFrame = ({ children }) => (
   </div>
 );
 
+const renderQueueBadge = (level) => {
+  const config = {
+    low: { label: 'Low', class: 'q-low', icon: <User size={12} /> },
+    medium: { label: 'Med', class: 'q-med', icon: <Users size={12} /> },
+    high: { label: 'High', class: 'q-high', icon: <Hourglass size={12} /> }
+  };
+  const c = config[level] || config.low;
+  return <span className={`queue-badge ${c.class}`}>{c.icon} {c.label}</span>;
+};
+
+const Header = ({ currentScreen, viewMode, setCurrentScreen }) => (
+  <header className="app-header">
+    {viewMode === 'list' && currentScreen !== 'landing' ? (
+      <button type="button" className="back-btn" onClick={() => setCurrentScreen('landing')}>
+        <ArrowLeft size={20} />
+      </button>
+    ) : <div style={{width:36}}></div>}
+    
+    <div className="header-content">
+      <h1>{currentScreen === 'vendor' ? 'Vendor Portal' : currentScreen === 'dev' ? 'Developer Mode' : 'Foodie IIUM'}</h1>
+      <p>{currentScreen === 'login' ? 'Secure Access' : 'Mahallah Bilal Cafeteria'}</p>
+    </div>
+    <div style={{marginLeft: 'auto'}}>
+      {currentScreen === 'student' && viewMode === 'list' && <Store size={24} color="#007A73" />}
+      {currentScreen === 'vendor' && <div className="vendor-avatar"><User size={16} color="white"/></div>}
+    </div>
+  </header>
+);
+
+const VendorListCard = ({ stall, onSelect }) => (
+  <div 
+    className="vendor-list-card animate-fade-in"
+    onClick={() => onSelect(stall)}
+  >
+    <div className="vendor-image-container">
+      <img src={stall.image} alt={stall.name} className="vendor-image" />
+      <div className={`vendor-status-overlay ${stall.isOpen ? 'open' : 'closed'}`}>
+        {stall.isOpen ? 'OPEN' : 'CLOSED'}
+      </div>
+      {stall.isOpen && stall.activePromos?.length > 0 && (
+        <div className="vendor-promo-badge">
+          <Flame size={14} fill="white" /> {stall.activePromos.length} OFFER{stall.activePromos.length > 1 ? 'S' : ''}
+        </div>
+      )}
+    </div>
+    <div className="vendor-info">
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <h3 className="vendor-name">{stall.name}</h3>
+        {stall.isOpen && renderQueueBadge(stall.queueLevel)}
+      </div>
+      <div className="vendor-meta">
+        <span><Clock size={12}/> {stall.operatingHours}</span>
+      </div>
+      <p className="vendor-desc">{stall.description}</p>
+    </div>
+  </div>
+);
+
+const VendorDetailView = ({ 
+  stall, 
+  stalls, 
+  isVendorMode, 
+  onBack,
+  toggleShopStatus,
+  openPromoModal,
+  openHoursModal,
+  setQueueLevel,
+  deletePromo,
+  openEditItemModal,
+  toggleItemStock
+}) => {
+  const liveStallData = stalls.find(s => s.id === stall.id) || stall;
+
+  const categories = useMemo(() => {
+    const cats = [...new Set(liveStallData.menu.map(item => item.category || 'General'))];
+    return cats;
+  }, [liveStallData.menu]);
+
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
+
+  useEffect(() => {
+    if (!categories.includes(activeCategory)) {
+      setActiveCategory(categories[0]);
+    }
+  }, [categories, activeCategory]);
+
+  const filteredMenu = liveStallData.menu.filter(item => (item.category || 'General') === activeCategory);
+
+  return (
+    <div className="detail-view animate-fade-in">
+      <div className="detail-safe-area-header">
+         <button 
+          type="button"
+          className="detail-back-btn-dark" 
+          onClick={onBack}
+        >
+          <ArrowLeft size={24} color="var(--primary-dark)"/>
+        </button>
+        <span style={{fontWeight:'700', fontSize:'0.9rem', marginLeft:'12px', color:'var(--primary-dark)'}}>
+          {liveStallData.name}
+        </span>
+      </div>
+
+      <div className="detail-hero">
+        <img src={liveStallData.image} alt={liveStallData.name} />
+        <div className="detail-hero-gradient"></div>
+        
+        <div className="detail-title-block">
+          <div className="detail-chips">
+            <span className={`chip ${liveStallData.isOpen ? 'open' : 'closed'}`}>
+              {liveStallData.isOpen ? 'OPEN' : 'CLOSED'}
+            </span>
+            <span className="chip location"><Clock size={12}/> {liveStallData.operatingHours}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{padding:'20px', flex:1, display:'flex', flexDirection:'column'}}>
+        {isVendorMode && (
+          <div className="control-panel">
+             <div className="control-card" onClick={() => toggleShopStatus(liveStallData.id)}>
+              <div className="control-icon"><Store size={24}/></div>
+              <div className="control-label">{liveStallData.isOpen ? 'Close Shop' : 'Open Shop'}</div>
+            </div>
+            <div className="control-card" onClick={openPromoModal}>
+              <div className="control-icon"><Send size={24}/></div>
+              <div className="control-label">Add Promo</div>
+            </div>
+            <div className="control-card" onClick={openHoursModal}>
+              <div className="control-icon"><Clock size={24}/></div>
+              <div className="control-label">Edit Hours</div>
+            </div>
+             <div className="control-card" style={{gridColumn:'1 / -1', flexDirection:'row', justifyContent:'space-between', cursor: 'default'}}>
+               <span className="control-label">Queue:</span>
+               <div style={{display:'flex', gap:'4px'}}>
+                {['low', 'medium', 'high'].map(lvl => (
+                  <button 
+                    type="button"
+                    key={lvl}
+                    onClick={(e) => { e.stopPropagation(); setQueueLevel(liveStallData.id, lvl); }}
+                    style={{
+                      padding:'4px 8px', borderRadius:'6px', border:'none', fontSize:'0.7rem', fontWeight:'700', cursor:'pointer',
+                      background: liveStallData.queueLevel === lvl ? '#007A73' : '#f1f5f9',
+                      color: liveStallData.queueLevel === lvl ? 'white' : '#64748b'
+                    }}
+                  >
+                    {lvl.toUpperCase()}
+                  </button>
+                ))}
+               </div>
+            </div>
+          </div>
+        )}
+
+        {liveStallData.isOpen && liveStallData.activePromos?.length > 0 && (
+          <div className="promo-stack" style={{marginBottom:'24px'}}>
+            {liveStallData.activePromos.map((promo) => (
+              <div key={promo.id} className="active-promo-banner">
+                <div className="promo-icon"><Flame size={20} fill="#EA580C" /></div>
+                <div className="promo-text">
+                  <span className="promo-title">
+                    {promo.item}
+                    <span className="promo-price">{promo.price}</span>
+                  </span>
+                  <p className="promo-details">Ends in {promo.duration}</p>
+                </div>
+                {isVendorMode && (
+                  <button 
+                    type="button"
+                    onClick={() => deletePromo(liveStallData.id, promo.id)} 
+                    style={{background:'rgba(255,255,255,0.5)', border:'none', borderRadius:'6px', padding:'6px', cursor:'pointer'}}
+                  >
+                    <Trash2 size={16} color="#9A3412"/>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="menu-header-section">
+          <h3 style={{fontSize:'1rem', fontWeight:'700', color:'#64748b', margin:0}}>MENU</h3>
+        </div>
+        
+        <div className="category-tabs-container">
+          {categories.map((cat, idx) => (
+            <button 
+              type="button"
+              key={idx} 
+              className={`category-tab ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="menu-list-container">
+          {filteredMenu.map((item, idx) => {
+            const activePromo = liveStallData.activePromos?.find(p => p.item === item.name);
+            return (
+              <div key={idx} className="menu-item">
+                <div className="item-name">
+                  <span className="stock-indicator" style={{background: item.inStock ? 'var(--success)' : '#e5e5ea'}}></span>
+                  <span style={{color: !item.inStock && '#8e8e93', textDecoration: !item.inStock && 'line-through', marginLeft:'8px'}}>{item.name}</span>
+                  {activePromo && <Tag size={12} color="#EA580C" style={{marginLeft:'6px'}}/>}
+                </div>
+                
+                <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
+                  <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end'}}>
+                     {activePromo ? (
+                       <>
+                         <span className="old-price">{item.price}</span>
+                         <span className="new-price">{activePromo.price}</span>
+                       </>
+                     ) : (
+                       <span style={{fontSize:'0.9rem', fontWeight:'600', color:'var(--text-main)'}}>{item.price}</span>
+                     )}
+                  </div>
+                  {isVendorMode && (
+                    <div style={{display:'flex', gap:'8px'}}>
+                      <button 
+                        type="button"
+                        onClick={() => openEditItemModal(item)}
+                        style={{
+                          background: '#f1f5f9',
+                          color: '#64748b',
+                          border: 'none', padding: '0 8px', borderRadius: '8px', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center'
+                        }}
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => toggleItemStock(liveStallData.id, item.name)}
+                        style={{
+                          background: item.inStock ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.1)',
+                          color: item.inStock ? 'var(--success)' : 'var(--danger)',
+                          border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer'
+                        }}
+                      >
+                        {item.inStock ? 'IN' : 'OUT'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+          {filteredMenu.length === 0 && (
+            <div style={{padding:'20px', textAlign:'center', color:'#94a3b8', fontSize:'0.9rem'}}>
+              No items in this category.
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('landing'); 
   const [viewMode, setViewMode] = useState('list'); 
@@ -342,7 +581,6 @@ export default function App() {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [showHoursModal, setShowHoursModal] = useState(false);
   
-  // New State for Edit Item
   const [showEditItemModal, setShowEditItemModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [editPriceRaw, setEditPriceRaw] = useState('');
@@ -397,10 +635,8 @@ export default function App() {
     }));
   };
 
-  // --- EDIT ITEM FUNCTIONS ---
   const openEditItemModal = (item) => {
     setEditingItem(item);
-    // Remove "RM " or other non-numeric chars except dot
     setEditPriceRaw(item.price.replace(/[^0-9.]/g, ''));
     setShowEditItemModal(true);
   };
@@ -411,7 +647,6 @@ export default function App() {
     setStalls(stalls.map(s => {
       if (s.id === selectedVendor.id) {
         const updatedMenu = s.menu.map(m => {
-          // Identify item by name & category to be safe
           if (m.name === editingItem.name && m.category === editingItem.category) {
             const num = parseFloat(editPriceRaw);
             const displayPrice = isNaN(num) ? editPriceRaw : `RM ${num.toFixed(2)}`;
@@ -537,256 +772,23 @@ export default function App() {
   const minutes = ['00', '15', '30', '45'];
   const ampm = ['AM', 'PM'];
 
-  const renderQueueBadge = (level) => {
-    const config = {
-      low: { label: 'Low', class: 'q-low', icon: <User size={12} /> },
-      medium: { label: 'Med', class: 'q-med', icon: <Users size={12} /> },
-      high: { label: 'High', class: 'q-high', icon: <Hourglass size={12} /> }
-    };
-    const c = config[level] || config.low;
-    return <span className={`queue-badge ${c.class}`}>{c.icon} {c.label}</span>;
-  };
-  
-  const VendorListCard = ({ stall }) => (
-    <div 
-      className="vendor-list-card animate-fade-in"
-      onClick={() => {
-        setSelectedVendor(stall);
-        setViewMode('detail');
-      }}
-    >
-      <div className="vendor-image-container">
-        <img src={stall.image} alt={stall.name} className="vendor-image" />
-        <div className={`vendor-status-overlay ${stall.isOpen ? 'open' : 'closed'}`}>
-          {stall.isOpen ? 'OPEN' : 'CLOSED'}
-        </div>
-        {stall.isOpen && stall.activePromos?.length > 0 && (
-          <div className="vendor-promo-badge">
-            <Flame size={14} fill="white" /> {stall.activePromos.length} OFFER{stall.activePromos.length > 1 ? 'S' : ''}
-          </div>
-        )}
-      </div>
-      <div className="vendor-info">
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-          <h3 className="vendor-name">{stall.name}</h3>
-          {stall.isOpen && renderQueueBadge(stall.queueLevel)}
-        </div>
-        <div className="vendor-meta">
-          <span><MapPin size={12}/> {stall.location}</span>
-          <span>•</span>
-          <span><Clock size={12}/> {stall.operatingHours}</span>
-        </div>
-        <p className="vendor-desc">{stall.description}</p>
-      </div>
-    </div>
-  );
-
-  const VendorDetailView = ({ stall, isVendorMode }) => {
-    const liveStallData = stalls.find(s => s.id === stall.id) || stall;
-
-    const categories = useMemo(() => {
-      const cats = [...new Set(liveStallData.menu.map(item => item.category || 'General'))];
-      return cats;
-    }, [liveStallData.menu]);
-
-    const [activeCategory, setActiveCategory] = useState(categories[0]);
-
-    const filteredMenu = liveStallData.menu.filter(item => (item.category || 'General') === activeCategory);
-
-    return (
-      <div className="detail-view animate-fade-in">
-        <div className="detail-safe-area-header">
-           <button 
-            className="detail-back-btn-dark" 
-            onClick={() => {
-              if (currentScreen === 'vendor') {
-                setCurrentScreen('landing');
-                setSelectedVendor(null);
-                setViewMode('list');
-              } else {
-                setViewMode('list');
-                setSelectedVendor(null);
-              }
-            }}
-          >
-            <ArrowLeft size={24} color="var(--primary-dark)"/>
-          </button>
-          <span style={{fontWeight:'700', fontSize:'0.9rem', marginLeft:'12px', color:'var(--primary-dark)'}}>
-            {liveStallData.name}
-          </span>
-        </div>
-
-        <div className="detail-hero">
-          <img src={liveStallData.image} alt={liveStallData.name} />
-          <div className="detail-hero-gradient"></div>
-          
-          <div className="detail-title-block">
-            <div className="detail-chips">
-              <span className={`chip ${liveStallData.isOpen ? 'open' : 'closed'}`}>
-                {liveStallData.isOpen ? 'OPEN' : 'CLOSED'}
-              </span>
-              <span className="chip location"><MapPin size={12}/> {liveStallData.location}</span>
-              <span className="chip location"><Clock size={12}/> {liveStallData.operatingHours}</span>
-            </div>
-          </div>
-        </div>
-
-        <div style={{padding:'20px', flex:1, display:'flex', flexDirection:'column'}}>
-          {isVendorMode && (
-            <div className="control-panel">
-               <div className="control-card" onClick={() => toggleShopStatus(liveStallData.id)}>
-                <div className="control-icon"><Store size={24}/></div>
-                <div className="control-label">{liveStallData.isOpen ? 'Close Shop' : 'Open Shop'}</div>
-              </div>
-              <div className="control-card" onClick={openPromoModal}>
-                <div className="control-icon"><Send size={24}/></div>
-                <div className="control-label">Add Promo</div>
-              </div>
-              <div className="control-card" onClick={openHoursModal}>
-                <div className="control-icon"><Clock size={24}/></div>
-                <div className="control-label">Edit Hours</div>
-              </div>
-               <div className="control-card" style={{gridColumn:'span 2', flexDirection:'row', justifyContent:'space-between'}}>
-                 <span className="control-label">Queue:</span>
-                 <div style={{display:'flex', gap:'4px'}}>
-                  {['low', 'medium', 'high'].map(lvl => (
-                    <button 
-                      key={lvl}
-                      onClick={(e) => { e.stopPropagation(); setQueueLevel(liveStallData.id, lvl); }}
-                      style={{
-                        padding:'4px 8px', borderRadius:'6px', border:'none', fontSize:'0.7rem', fontWeight:'700', cursor:'pointer',
-                        background: liveStallData.queueLevel === lvl ? '#007A73' : '#f1f5f9',
-                        color: liveStallData.queueLevel === lvl ? 'white' : '#64748b'
-                      }}
-                    >
-                      {lvl.toUpperCase()}
-                    </button>
-                  ))}
-                 </div>
-              </div>
-            </div>
-          )}
-
-          {liveStallData.isOpen && liveStallData.activePromos?.length > 0 && (
-            <div className="promo-stack" style={{marginBottom:'24px'}}>
-              {liveStallData.activePromos.map((promo) => (
-                <div key={promo.id} className="active-promo-banner">
-                  <div className="promo-icon"><Flame size={20} fill="#EA580C" /></div>
-                  <div className="promo-text">
-                    <span className="promo-title">
-                      {promo.item}
-                      <span className="promo-price">{promo.price}</span>
-                    </span>
-                    <p className="promo-details">Ends in {promo.duration}</p>
-                  </div>
-                  {isVendorMode && (
-                    <button 
-                      onClick={() => deletePromo(liveStallData.id, promo.id)} 
-                      style={{background:'rgba(255,255,255,0.5)', border:'none', borderRadius:'6px', padding:'6px', cursor:'pointer'}}
-                    >
-                      <Trash2 size={16} color="#9A3412"/>
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="menu-header-section">
-            <h3 style={{fontSize:'1rem', fontWeight:'700', color:'#64748b', margin:0}}>MENU</h3>
-          </div>
-          
-          <div className="category-tabs-container">
-            {categories.map((cat, idx) => (
-              <button 
-                key={idx} 
-                className={`category-tab ${activeCategory === cat ? 'active' : ''}`}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          <div className="menu-list-container">
-            {filteredMenu.map((item, idx) => {
-              const activePromo = liveStallData.activePromos?.find(p => p.item === item.name);
-              return (
-                <div key={idx} className="menu-item">
-                  <div className="item-name">
-                    <span className="stock-indicator" style={{background: item.inStock ? 'var(--success)' : '#e5e5ea'}}></span>
-                    <span style={{color: !item.inStock && '#8e8e93', textDecoration: !item.inStock && 'line-through', marginLeft:'8px'}}>{item.name}</span>
-                    {activePromo && <Tag size={12} color="#EA580C" style={{marginLeft:'6px'}}/>}
-                  </div>
-                  
-                  <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                    <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end'}}>
-                       {activePromo ? (
-                         <>
-                           <span className="old-price">{item.price}</span>
-                           <span className="new-price">{activePromo.price}</span>
-                         </>
-                       ) : (
-                         <span style={{fontSize:'0.9rem', fontWeight:'600', color:'var(--text-main)'}}>{item.price}</span>
-                       )}
-                    </div>
-                    {isVendorMode && (
-                      <div style={{display:'flex', gap:'8px'}}>
-                        <button 
-                          onClick={() => openEditItemModal(item)}
-                          style={{
-                            background: '#f1f5f9',
-                            color: '#64748b',
-                            border: 'none', padding: '0 8px', borderRadius: '8px', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center'
-                          }}
-                        >
-                          <Pencil size={16} />
-                        </button>
-                        <button 
-                          onClick={() => toggleItemStock(liveStallData.id, item.name)}
-                          style={{
-                            background: item.inStock ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.1)',
-                            color: item.inStock ? 'var(--success)' : 'var(--danger)',
-                            border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer'
-                          }}
-                        >
-                          {item.inStock ? 'IN' : 'OUT'}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-            {filteredMenu.length === 0 && (
-              <div style={{padding:'20px', textAlign:'center', color:'#94a3b8', fontSize:'0.9rem'}}>
-                No items in this category.
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
+  const handleVendorSelect = (stall) => {
+    setSelectedVendor(stall);
+    setViewMode('detail');
   };
 
-  const Header = () => (
-    <header className="app-header">
-      {viewMode === 'list' && currentScreen !== 'landing' ? (
-        <button className="back-btn" onClick={() => setCurrentScreen('landing')}>
-          <ArrowLeft size={20} />
-        </button>
-      ) : <div style={{width:36}}></div>}
-      
-      <div className="header-content">
-        <h1>{currentScreen === 'vendor' ? 'Vendor Portal' : currentScreen === 'dev' ? 'Developer Mode' : 'Foodie IIUM'}</h1>
-        <p>{currentScreen === 'login' ? 'Secure Access' : 'Mahallah Bilal Cafeteria'}</p>
-      </div>
-      <div style={{marginLeft: 'auto'}}>
-        {currentScreen === 'student' && viewMode === 'list' && <Store size={24} color="#007A73" />}
-        {currentScreen === 'vendor' && <div className="vendor-avatar"><User size={16} color="white"/></div>}
-      </div>
-    </header>
-  );
+  const handleDetailBack = () => {
+    if (currentScreen === 'vendor') {
+      setCurrentScreen('landing');
+      setSelectedVendor(null);
+      setViewMode('list');
+    } else {
+      setViewMode('list');
+      setSelectedVendor(null);
+    }
+  };
+
+  const isVendor = currentScreen === 'vendor' || (currentScreen === 'dev' && devActiveTab === 'vendor');
 
   if (currentScreen === 'landing') {
     return (
@@ -804,10 +806,10 @@ export default function App() {
           <h1 className="landing-title" style={{marginTop:'-10px', fontSize:'2rem', opacity:0.8}}>IIUM</h1>
           <p className="landing-subtitle">Mahallah Bilal Cafeteria</p>
           <div style={{width:'100%'}}>
-            <button className="btn-glass-primary" onClick={() => setCurrentScreen('student')}>
+            <button type="button" className="btn-glass-primary" onClick={() => setCurrentScreen('student')}>
               Check Food Status <ArrowRight size={20} />
             </button>
-            <button className="btn-glass-outline" onClick={() => { setLoginId(''); setLoginPass(''); setLoginError(''); setCurrentScreen('login'); }}>
+            <button type="button" className="btn-glass-outline" onClick={() => { setLoginId(''); setLoginPass(''); setLoginError(''); setCurrentScreen('login'); }}>
               <LogIn size={18} /> Vendor Login
             </button>
           </div>
@@ -820,7 +822,7 @@ export default function App() {
   if (currentScreen === 'login') {
     return (
       <PhoneFrame>
-        <Header />
+        <Header currentScreen={currentScreen} viewMode={viewMode} setCurrentScreen={setCurrentScreen} />
         <main className="login-wrapper animate-fade-in">
           <div style={{textAlign:'center', marginBottom:'32px'}}>
             <div style={{background:'rgba(0, 122, 115, 0.1)', width:'64px', height:'64px', borderRadius:'20px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px'}}>
@@ -829,10 +831,22 @@ export default function App() {
             <h2 style={{fontSize:'1.5rem', fontWeight:'800', margin:0, color:'var(--primary-dark)'}}>Welcome Back</h2>
             <p style={{color:'var(--text-muted)', marginTop:'8px'}}>Enter your vendor credentials.</p>
           </div>
-          <input type="text" placeholder="Username" className="modern-input" value={loginId} onChange={(e) => setLoginId(e.target.value)} />
-          <input type="password" placeholder="Password" className="modern-input" value={loginPass} onChange={(e) => setLoginPass(e.target.value)} />
+          <input 
+            type="text" 
+            placeholder="Username" 
+            className="modern-input" 
+            value={loginId} 
+            onChange={(e) => setLoginId(e.target.value)} 
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            className="modern-input" 
+            value={loginPass} 
+            onChange={(e) => setLoginPass(e.target.value)} 
+          />
           {loginError && <p style={{color:'red', textAlign:'center', fontSize:'0.9rem'}}>{loginError}</p>}
-          <button className="login-btn" onClick={handleLogin}>Login</button>
+          <button type="button" className="login-btn" onClick={handleLogin}>Login</button>
         </main>
       </PhoneFrame>
     );
@@ -840,7 +854,7 @@ export default function App() {
 
   return (
     <PhoneFrame>
-      {viewMode === 'list' && <Header />}
+      {viewMode === 'list' && <Header currentScreen={currentScreen} viewMode={viewMode} setCurrentScreen={setCurrentScreen} />}
 
       {currentScreen === 'dev' && viewMode === 'list' && (
         <div className="dev-nav">
@@ -856,14 +870,23 @@ export default function App() {
              <h2 style={{fontSize:'1.2rem', marginBottom:'16px', color:'var(--primary-dark)'}}>
                {currentScreen === 'dev' && devActiveTab === 'vendor' ? 'Manage Stalls (Dev)' : 'Available Stalls'}
              </h2>
-             {stalls.map(stall => <VendorListCard key={stall.id} stall={stall} />)}
+             {stalls.map(stall => <VendorListCard key={stall.id} stall={stall} onSelect={handleVendorSelect} />)}
           </div>
         )}
 
         {viewMode === 'detail' && selectedVendor && (
           <VendorDetailView 
             stall={selectedVendor} 
-            isVendorMode={currentScreen === 'vendor' || (currentScreen === 'dev' && devActiveTab === 'vendor')} 
+            stalls={stalls}
+            isVendorMode={isVendor} 
+            onBack={handleDetailBack}
+            toggleShopStatus={toggleShopStatus}
+            openPromoModal={openPromoModal}
+            openHoursModal={openHoursModal}
+            setQueueLevel={setQueueLevel}
+            deletePromo={deletePromo}
+            openEditItemModal={openEditItemModal}
+            toggleItemStock={toggleItemStock}
           />
         )}
 
@@ -885,8 +908,15 @@ export default function App() {
                       <span style={{fontWeight: isSelected?600:400}}>{m.name}</span>
                     </div>
                     {isSelected && (
-                      <input type="text" inputMode="decimal" className="promo-inline-input" placeholder="Price (e.g. 5)"
-                        value={promoPrices[m.name] || ''} onClick={(e) => e.stopPropagation()} onChange={(e) => handlePriceChange(m.name, e.target.value)}
+                      <input 
+                        type="text" 
+                        inputMode="decimal" 
+                        className="promo-inline-input" 
+                        placeholder="Price (e.g. 5)"
+                        value={promoPrices[m.name] || ''} 
+                        onClick={(e) => e.stopPropagation()} 
+                        onChange={(e) => handlePriceChange(m.name, e.target.value)}
+                        onKeyDown={(e) => e.key === 'Backspace' && e.stopPropagation()}
                       />
                     )}
                   </div>
@@ -902,8 +932,8 @@ export default function App() {
             />
             
             <div className="modal-actions" style={{marginTop: '20px'}}>
-              <button className="btn-cancel" onClick={() => setShowPromoModal(false)}>Cancel</button>
-              <button className="btn-save" onClick={blastPromo}>Blast Promo</button>
+              <button type="button" className="btn-cancel" onClick={() => setShowPromoModal(false)}>Cancel</button>
+              <button type="button" className="btn-save" onClick={blastPromo}>Blast Promo</button>
             </div>
           </div>
         </div>
@@ -938,8 +968,8 @@ export default function App() {
             </div>
 
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setShowHoursModal(false)}>Cancel</button>
-              <button className="btn-save" onClick={saveHours}>Save Changes</button>
+              <button type="button" className="btn-cancel" onClick={() => setShowHoursModal(false)}>Cancel</button>
+              <button type="button" className="btn-save" onClick={saveHours}>Save Changes</button>
             </div>
           </div>
         </div>
@@ -960,20 +990,23 @@ export default function App() {
               value={editPriceRaw} 
               onChange={(e) => setEditPriceRaw(e.target.value)}
               placeholder="0.00"
+              onKeyDown={(e) => e.key === 'Backspace' && e.stopPropagation()}
             />
             
             <div className="modal-actions">
               <button 
+                type="button"
                 className="btn-cancel" 
                 style={{background:'#fee2e2', color:'#ef4444', border:'1px solid #fecaca'}}
                 onClick={deleteMenuItem}
               >
                 Delete Item
               </button>
-              <button className="btn-save" onClick={saveItemChanges}>Save Changes</button>
+              <button type="button" className="btn-save" onClick={saveItemChanges}>Save Changes</button>
             </div>
             <div style={{marginTop:'12px'}}>
               <button 
+                type="button"
                 onClick={() => setShowEditItemModal(false)}
                 style={{background:'transparent', border:'none', color:'#64748b', fontSize:'0.9rem', cursor:'pointer'}}
               >
